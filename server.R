@@ -12,7 +12,9 @@
 library(shiny)
 
 shinyServer(function(input, output, session) {
-    
+  
+  load("drg-directory.RData")
+  
     ### linking to other tabs
     observeEvent(input$link_to_tabsummary, {
         newvalue <- "tabsummary"
@@ -74,15 +76,15 @@ shinyServer(function(input, output, session) {
         mat <- bulkseq_mat[,1:154]
 
         tcounts <- t(mat[goi, ]) %>%
-            base::merge(colData(dds), ., by="row.names") %>%
+            base::merge(bulkseq_colData, ., by="row.names") %>%
             gather(gene, expression, (ncol(.)-length(goi)+1):(ncol(.)))
         
-        gene_data <- getBM(attributes=c('ensembl_gene_id', 'mgi_symbol'), filters = 'ensembl_gene_id', values = goi, mart = ensembl)
-        gene_data <- gene_data[!duplicated(gene_data[,c('ensembl_gene_id')]),]
-        rownames(gene_data) <- gene_data$ensembl_gene_id
+        #gene_data <- getBM(attributes=c('ensembl_gene_id', 'mgi_symbol'), filters = 'ensembl_gene_id', values = goi, mart = ensembl)
+        #gene_data <- gene_data[!duplicated(gene_data[,c('ensembl_gene_id')]),]
+        #rownames(gene_data) <- gene_data$ensembl_gene_id
         tcounts$symbol <- gene_data[tcounts$gene,]$mgi_symbol
         
-        tcounts_med <- tcounts %>% group_by(Condition, Population, symbol, expression) %>% summarise(expression=median(expression))
+        tcounts_med <- tcounts %>% dplyr::group_by(Condition, Population, symbol, expression) %>% dplyr::summarise(expression=median(expression))
         tcounts_med[!tcounts_med$Condition %in% "Ipsi", ] #remove all injured samples
         
         g <- ggplot(tcounts_med, aes(x=Population, y = symbol)) #group by population
@@ -117,18 +119,16 @@ shinyServer(function(input, output, session) {
         mat <- bulkseq_mat[,1:154]
         ## adjust colData(z_dds) for Zheng comparison
         tcounts <- t(mat[goi, ]) %>%
-            base::merge(colData(dds), ., by="row.names") %>%
+            base::merge(bulkseq_colData, ., by="row.names") %>%
             gather(gene, expression, (ncol(.)-length(goi)+1):(ncol(.)))
         
         ## add gene symbols for goi terms
-        gene_data <- getBM(attributes=c('ensembl_gene_id', 'mgi_symbol'), filters = 'ensembl_gene_id', values = goi, mart = ensembl)
-        gene_data <- gene_data[!duplicated(gene_data[,c('ensembl_gene_id')]),]
-        rownames(gene_data) <- gene_data$ensembl_gene_id
+        #gene_data <- getBM(attributes=c('ensembl_gene_id', 'mgi_symbol'), filters = 'ensembl_gene_id', values = goi, mart = ensembl)
+        #gene_data <- gene_data[!duplicated(gene_data[,c('ensembl_gene_id')]),]
+        #rownames(gene_data) <- gene_data$ensembl_gene_id
         tcounts$symbol <- gene_data[tcounts$gene,]$mgi_symbol
         
-        tcounts$Time_Cond <- paste(tcounts$Condition, tcounts$Timepoint, sep="_")
-        
-        tcounts_med <- tcounts %>% group_by(Time_Cond, Condition, Timepoint, symbol) %>% summarise(expression=median(expression))
+        tcounts_med <- tcounts %>% dplyr::group_by(Condition, Timepoint, symbol) %>% dplyr::summarise(expression=median(expression))
         
         g <- ggplot(data=tcounts_med, aes(x=Condition, y=expression, group=interaction(symbol, Timepoint)) ) 
         g <- g + scale_colour_viridis(discrete=TRUE, end = .80)

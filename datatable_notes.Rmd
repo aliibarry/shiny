@@ -1,0 +1,27 @@
+---
+title: "datatable-notes"
+author: "amb"
+date: "03/05/2022"
+output: html_document
+---
+
+VST transforms counts across search terms. Samples are labelled by subtype, timepoint, and
+condition.  
+
+* TDNV = Nociceptors   
+* CGRT = Peptidergic nociceptors
+* MRTD = Non-peptidergic nociceptors  
+* CRTH = C-LTMRs
+* TBAC = Ad- AB-RA-LTMRs
+
+---
+
+* i = ipsilateral
+* c = contralateral
+
+---
+
+* 3D = 3 days post-SNI
+* 4W = 4 weeks post-SNI
+
+---

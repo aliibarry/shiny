@@ -9,10 +9,12 @@
 
 ## USER NOTE: still need to pre-load for new session (31/08/2021)
 #load("~/R/win-library/4.1/amb_shiny/DRGdirectory.RData")
-
 #load("~/R/win-library/4.1/amb_shiny/DRGdirectory/atf3_shiny.RData")
-load("~/R/win-library/4.1/amb_shiny/DRGdirectory/biomaRt_update.RData")
-#load("../bulkseq/THESIS_injury/subtype/bulkseq_injury_subtype.RData")
+#load("~/R/win-library/4.1/amb_shiny/DRGdirectory/biomaRt_update.RData")
+#options(repos = BiocManager::repositories())
+
+#rsconnect::deployApp()
+#setRepositories(addURLs = c(BioC = "https://bioconductor.org/packages/3.15/bioc"))
 
 library(shiny)
 library(shinythemes)
@@ -29,17 +31,17 @@ library("BiocParallel")
 library("AnnotationDbi")
 library("org.Mm.eg.db")
 library("sva")
-library(Tmisc)
-library(calibrate)
+#library(Tmisc)
+#library(calibrate)
 library("biomaRt")
 library("IHW")
-library(lattice)
+#library(lattice)
 library(plotrix)
 library(ggrepel)
 library(ggbiplot)
-library(DT)
+#library(DT)
 library(leaflet)
-library(GenomicFeatures)
+#library(GenomicFeatures)
 library(stringr)
 library("ComplexHeatmap")
 library(ggplot2)
@@ -51,6 +53,7 @@ library(viridis)
 
 shinyUI(fluidPage(
     
+  
     #CSS style sheet
     includeCSS("www/style.css"),
     
@@ -164,7 +167,7 @@ shinyUI(fluidPage(
                                          plotOutput("bulkseq_dots", width = "300px"),
                                          br(),
                                          h4("Injury"),
-                                         plotOutput("bulkseq_lines", width = "600px")
+                                         plotOutput("bulkseq_lines", width = "400px")
                                          
                                          ),
                                          
@@ -195,17 +198,17 @@ shinyUI(fluidPage(
                 ), # tabItem one
                 
                 
-                tabItem(tabName="tabplots",
-                        h4("beta"),
-                        hr()
-                ), # tabItem plots
-                
-                ## Pathway analyses for various datasets. GO-term searches, etc.
-                tabItem(tabName="tabpaths",
-                        h4("Pathway and network analyses"),
-                        p("beta")
-                        
-                ), # tabItem paths
+                # tabItem(tabName="tabplots",
+                #         h4("beta"),
+                #         hr()
+                # ), # tabItem plots
+                # 
+                # ## Pathway analyses for various datasets. GO-term searches, etc.
+                # tabItem(tabName="tabpaths",
+                #         h4("Pathway and network analyses"),
+                #         p("beta")
+                #         
+                # ), # tabItem paths
                 
                 ## Supply simple links for each paper + supplementary repository
                 tabItem(tabName="tabcode",
