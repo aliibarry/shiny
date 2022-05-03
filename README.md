@@ -1,1 +1,1 @@
-# shiny
+# DRG directory
