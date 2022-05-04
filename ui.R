@@ -137,34 +137,49 @@ shinyUI(fluidPage(
                                 #users can upload a gene list for searching datasets
                                 column(12, offset = 0,
                                        
-                                       h4("Search by file (mouse ensembl id):"), 
-                                       fileInput("user_file", 
-                                                 label = NULL,
-                                                 accept = c(
-                                                     'text/csv',
-                                                     'text/comma-separated-values',
-                                                     'text/tab-separated-values',
-                                                     'text/plain',
-                                                     '.csv',
-                                                     '.tsv')
-                                       )
+                                       h4("Search by gene:"),
+                                       selectizeInput(
+                                         inputId = "geneid", 
+                                         label = "", 
+                                         multiple = TRUE,
+                                         choices = NULL
+                                         )
+                                       # ,
+                                       # br(),
+                                       # 
+                                       # h4("Search by file (mouse ensembl id):"), 
+                                       # fileInput("user_file", 
+                                       #           label = NULL,
+                                       #           accept = c(
+                                       #               'text/csv',
+                                       #               'text/comma-separated-values',
+                                       #               'text/tab-separated-values',
+                                       #               'text/plain',
+                                       #               '.csv',
+                                       #               '.tsv')
+                                       # )
                                 )
                             ),
                         
                         fluidRow(
                             column(12, h4("Search Results")),
                       
-                            column(width = 5,
-                                h4("General"),
-                                h6("combined timepoints"),
+                            column(width = 6,
+                                h4("Naive"),
                                 plotlyOutput("bulkseq_dots")
                                 ),
-                            column(width = 7,
-                                h4("Timepoint Data"),
+                            column(width = 6,
+                                h4("SNI"),
                                 plotlyOutput("bulkseq_lines")
-                                ),
-                            
-                            ) #fluidRow
+                                )
+
+                            ), #fluidRow
+                        fluidRow(
+                          column(width = 12,
+                                 h4("Subtype Plots"),
+                                 plotlyOutput("bulkseq_lines_subtype")
+                                )
+                        )
 
                 ), # tabItem HOME
                 
@@ -177,7 +192,9 @@ shinyUI(fluidPage(
                                  includeMarkdown("datatable_notes.Rmd")),
                           br(),
                           column(width = 12, 
-                                 DT::dataTableOutput("goi_table")),
+                                DT::dataTableOutput("goi_table")
+                                #DT::dataTableOutput("geneidtable")
+                                ),
                           
                           column(width=12, 
                                  downloadButton("downloadData", "Download"))
@@ -207,7 +224,6 @@ shinyUI(fluidPage(
                         
                         # HTML links to funders, embedded in a table for alignment
                         HTML(paste0(
-                            "<br><br><br><br><br><br><br><br><br><br><br><br><br><br>",
                             "<table style='margin-left:auto; margin-right:auto; bottom=0;'>",
                             
                             "<tr>",

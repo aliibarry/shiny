@@ -12,6 +12,15 @@ shinyServer(function(input, output, session) {
   
   load("drg-directory.RData")
   
+  updateSelectizeInput(session, 
+                       inputId = "geneid", 
+                       label = "",
+                       choices = bulkseq_mat[,155], 
+                       server = TRUE,
+                       selected = "Atf3"
+                       #options = list(placeholder = 'select a gene', 'plugins' = list('remove_button'))
+                       )
+  
     ### linking to other tabs
     observeEvent(input$link_to_tabsummary, {
         newvalue <- "tabsummary"
@@ -20,38 +29,53 @@ shinyServer(function(input, output, session) {
     
     #output$genesearch <- eventReactive(input$goButton,{input$genequery})
 
-    data <- reactive({ 
-      req(input$user_file) 
-      
-      goi <- read.table(input$user_file$datapath)
-      rownames(goi) <- goi[,1]
-      
-      goi <- goi[which(rownames(goi) %in% rownames(bulkseq_mat)==TRUE),]
-      
-      return(goi)
-    })
-    
+    # data <- reactive({
+    #     req(input$user_file)
+    # 
+    #     goi <- read.table(input$user_file$datapath)
+    #     rownames(goi) <- goi[,1]
+    # 
+    #     goi <- goi[which(rownames(goi) %in% rownames(bulkseq_mat)==TRUE),]
+    # 
+    #     return(goi)
+    # })
+        
+    data <- reactive({
+      req(input$geneid)
+
+      filteredmat <- bulkseq_mat[bulkseq_mat[,155] %in% input$geneid,]
+      #filteredmat <- bulkseq_mat[bulkseq_mat[,155] %in% input$user_file,]
+        
+      return(filteredmat)
+          
+      })
     
     output$goi_table <- DT::renderDataTable({
+        
+      req(data())
       
-      req(input$user_file);
-
-        datatable <- bulkseq_mat[data(),]
-
-        return(datatable)
+      datatable <- data()
+      
+      
+       # if (input$user_file == TRUE){
+       #   datatable <- bulkseq_mat[data(),]
+       # }
+       #  else {
+       #    datatable <- bulkseq_mat[grep(input$geneid, bulkseq_mat[,155]),]
+       #  }
+       # 
+       #  return(datatable)
 
     })
     
     output$downloadData <- downloadHandler(
       filename = function() {
-        paste("shinydata_usergrep", ".csv", sep = "")
+        paste("drgdirectory_search", ".csv", sep = "")
       },
       
       content = function(file) {
         
-        goi <- data()
-        datatable <- bulkseq_mat[goi,]
-        
+        datatable <- data()
         write.csv(datatable, file, row.names = FALSE)
       })
     
@@ -61,24 +85,23 @@ shinyServer(function(input, output, session) {
     
     output$bulkseq_dots <- renderPlotly({
       
-      req(input$user_file);
+      req(data());
       
-      mat <- bulkseq_mat[,1:154]
-      goi <- data()
+      mat <- data()
+      matfilt <- mat[,1:154]
       
-      tcounts <- t(mat[goi, ]) %>%
+      tcounts <- t(matfilt) %>%
         base::merge(bulkseq_colData, ., by="row.names") %>%
-        gather(gene, expression, (ncol(.)-length(goi)+1):(ncol(.)))
+        gather(gene, expression, (ncol(.)-nrow(matfilt)+1):(ncol(.)))
       
       ## add gene symbols for goi terms
       tcounts$symbol <- gene_data[tcounts$gene,]$mgi_symbol
       
       tcounts_med <- tcounts %>% dplyr::group_by(Condition, Population, symbol) %>% dplyr::summarise(expression=median(expression))
-      tcounts_med[!tcounts_med$Condition %in% "Ipsi", ] #remove all injured samples
+      tcounts_med <- tcounts_med[!tcounts_med$Condition %in% "Ipsi", ] #remove all injured samples
       
       g <- ggplot(tcounts_med, aes(x=interaction(Population), y = symbol)) #group by population
       g <- g + scale_colour_viridis_c(option = "magma", end = .90)
-      g <- g + facet_wrap(~Condition, ncol=3)
       g <- g + geom_point(aes(col=expression, size=expression))
       g <- g + theme_bw() + theme(
         panel.grid = element_blank(),
@@ -98,14 +121,14 @@ shinyServer(function(input, output, session) {
     
     output$bulkseq_lines <- renderPlotly({
         
-        req(input$user_file);
+      req(data());
       
-        mat <- bulkseq_mat[,1:154]
-        goi <- data()
-        
-        tcounts <- t(mat[goi, ]) %>%
-            base::merge(bulkseq_colData, ., by="row.names") %>%
-            gather(gene, expression, (ncol(.)-length(goi)+1):(ncol(.)))
+      mat <- data()
+      matfilt <- mat[,1:154]
+      
+      tcounts <- t(matfilt) %>%
+        base::merge(bulkseq_colData, ., by="row.names") %>%
+        gather(gene, expression, (ncol(.)-nrow(matfilt)+1):(ncol(.)))
         
         ## add gene symbols for goi terms
         tcounts$symbol <- gene_data[tcounts$gene,]$mgi_symbol
@@ -118,7 +141,7 @@ shinyServer(function(input, output, session) {
         #g <- g + facet_wrap(~symbol, ncol=3)
         g <- g + theme_bw() + theme(
             panel.grid = element_blank(),
-            axis.title = element_blank(),
+            #axis.title = element_blank(),
             axis.text.x = element_text(size=10, angle = 45, hjust= 1),
             axis.ticks.x = element_blank(),
             axis.ticks.y = element_blank())
@@ -127,11 +150,43 @@ shinyServer(function(input, output, session) {
     })
     
     
+    output$bulkseq_lines_subtype <- renderPlotly({
+      
+      req(data());
+      
+      mat <- data()
+      matfilt <- mat[,1:154]
+      
+      tcounts <- t(matfilt) %>%
+        base::merge(bulkseq_colData, ., by="row.names") %>%
+        gather(gene, expression, (ncol(.)-nrow(matfilt)+1):(ncol(.)))
+      
+      ## add gene symbols for goi terms
+      tcounts$symbol <- gene_data[tcounts$gene,]$mgi_symbol
+      
+      tcounts_med <- tcounts %>% dplyr::group_by(Condition, Timepoint, Population, symbol) %>% dplyr::summarise(expression=median(expression))
+      
+      g <- ggplot(data=tcounts_med, aes(x=Condition, y=expression, group=interaction(symbol, Timepoint)) ) 
+      g <- g + scale_colour_viridis(discrete=TRUE, end = .80)
+      g <- g + geom_line(aes(col=symbol, linetype=Timepoint)) + geom_point(aes(col=symbol))
+      g <- g + facet_wrap(~Population, ncol=5)
+      g <- g + theme_bw() + theme(
+        panel.grid = element_blank(),
+        #axis.title = element_blank(),
+        axis.text.x = element_text(size=10, angle = 45, hjust= 1),
+        axis.ticks.x = element_blank(),
+        axis.ticks.y = element_blank())
+      
+      ggplotly(g)
+    })
+    
+    
+    
     
     ### leaflet map for contact details
     output$myMap <- renderLeaflet({
         m <- leaflet() %>% addTiles()
-        m <- m %>% setView( -1.2217, 51.76529, zoom = 16)
+        m <- m %>% setView( -1.238233, 51.756192, zoom = 13)
         m %>% addPopups(-1.2217, 51.76529, "Neural Injury Group")
     })
     
