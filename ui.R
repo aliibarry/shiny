@@ -3,15 +3,8 @@
 ##   Allison Barry                      ##
 ##   University of Oxford               ##
 ##   allimariebarry@gmail.com           ##
-##   updated 09/2021                    ##
 ##   for non-commercial use only        ##
 ##########################################
-
-## USER NOTE: still need to pre-load for new session (31/08/2021)
-#load("~/R/win-library/4.1/amb_shiny/DRGdirectory.RData")
-#load("~/R/win-library/4.1/amb_shiny/DRGdirectory/atf3_shiny.RData")
-#load("~/R/win-library/4.1/amb_shiny/DRGdirectory/biomaRt_update.RData")
-#options(repos = BiocManager::repositories())
 
 #rsconnect::deployApp()
 #setRepositories(addURLs = c(BioC = "https://bioconductor.org/packages/3.15/bioc"))
@@ -20,6 +13,7 @@ library(shiny)
 library(shinythemes)
 library(shinydashboard)
 library(shinyFeedback)
+library(plotly)
 library(tidyverse)
 library("DESeq2")
 library("gplots")
@@ -34,7 +28,7 @@ library("sva")
 #library(Tmisc)
 #library(calibrate)
 library("biomaRt")
-library("IHW")
+#library("IHW")
 #library(lattice)
 library(plotrix)
 library(ggrepel)
@@ -162,11 +156,11 @@ shinyUI(fluidPage(
                       
                             column(width = 5,
                                 h4("Naive"),
-                                plotOutput("bulkseq_dots", width = "275px")
+                                plotlyOutput("bulkseq_dots")
                                 ),
                             column(width = 7,
                                 h4("Injury"),
-                                plotOutput("bulkseq_lines", width = "400px")
+                                plotlyOutput("bulkseq_lines")
                                 ),
                             
                             ) #fluidRow
@@ -227,7 +221,7 @@ shinyUI(fluidPage(
                 ), #tabitem code
                 
                 tabItem(tabName="tabguide",
-                        h4("User Guide"),
+                        h4("Contact"),
                         includeMarkdown('userguide.md'),
                         
                         # Lab location map, in a column solely for aesthetic

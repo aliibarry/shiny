@@ -3,7 +3,6 @@
 ##   Allison Barry                      ##
 ##   University of Oxford               ##
 ##   allimariebarry@gmail.com           ##
-##   updated 09/2021                    ##
 ##   for non-commercial use only        ##
 ##########################################
 
@@ -56,8 +55,11 @@ shinyServer(function(input, output, session) {
         write.csv(datatable, file, row.names = FALSE)
       })
     
+    PlotHeight = reactive(
+      return(length(data()))
+    )
     
-    output$bulkseq_dots <- renderPlot({
+    output$bulkseq_dots <- renderPlotly({
       
       req(input$user_file);
       
@@ -90,10 +92,10 @@ shinyServer(function(input, output, session) {
         "CGRT" = "PEP",
         "TDNV" = "Nociceptors"))
       
-      return(g)
+      ggplotly(g) 
     })
     
-    output$bulkseq_lines <- renderPlot({
+    output$bulkseq_lines <- renderPlotly({
         
         req(input$user_file);
       
@@ -120,7 +122,7 @@ shinyServer(function(input, output, session) {
             axis.ticks.x = element_blank(),
             axis.ticks.y = element_blank())
 
-        return(g)
+        ggplotly(g)
     })
     
     
