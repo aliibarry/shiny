@@ -73,11 +73,12 @@ shinyServer(function(input, output, session) {
       ## add gene symbols for goi terms
       tcounts$symbol <- gene_data[tcounts$gene,]$mgi_symbol
       
-      tcounts_med <- tcounts %>% dplyr::group_by(Condition, Population, symbol, expression) %>% dplyr::summarise(expression=median(expression))
+      tcounts_med <- tcounts %>% dplyr::group_by(Condition, Population, symbol) %>% dplyr::summarise(expression=median(expression))
       tcounts_med[!tcounts_med$Condition %in% "Ipsi", ] #remove all injured samples
       
-      g <- ggplot(tcounts_med, aes(x=Population, y = symbol)) #group by population
+      g <- ggplot(tcounts_med, aes(x=interaction(Population), y = symbol)) #group by population
       g <- g + scale_colour_viridis_c(option = "magma", end = .90)
+      g <- g + facet_wrap(~Condition, ncol=3)
       g <- g + geom_point(aes(col=expression, size=expression))
       g <- g + theme_bw() + theme(
         panel.grid = element_blank(),
@@ -114,7 +115,7 @@ shinyServer(function(input, output, session) {
         g <- ggplot(data=tcounts_med, aes(x=Condition, y=expression, group=interaction(symbol, Timepoint)) ) 
         g <- g + scale_colour_viridis(discrete=TRUE, end = .80)
         g <- g + geom_line(aes(col=symbol, linetype=Timepoint)) + geom_point(aes(col=symbol))
-        g <- g + facet_wrap(~symbol, ncol=3)
+        #g <- g + facet_wrap(~symbol, ncol=3)
         g <- g + theme_bw() + theme(
             panel.grid = element_blank(),
             axis.title = element_blank(),

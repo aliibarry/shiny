@@ -155,11 +155,12 @@ shinyUI(fluidPage(
                             column(12, h4("Search Results")),
                       
                             column(width = 5,
-                                h4("Naive"),
+                                h4("General"),
+                                h6("combined timepoints"),
                                 plotlyOutput("bulkseq_dots")
                                 ),
                             column(width = 7,
-                                h4("Injury"),
+                                h4("Timepoint Data"),
                                 plotlyOutput("bulkseq_lines")
                                 ),
                             
