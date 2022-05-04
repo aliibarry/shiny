@@ -77,8 +77,8 @@ shinyUI(fluidPage(
                              menuItem("Data Tables", tabName = "tabdata", icon = icon("stats", lib = "glyphicon")),
                              menuItem("Dataset details", tabName = "tabsummary", icon = icon("book")),
                              #menuItem("Pathway analysis", tabName = "tabpaths", icon = icon("code-branch")),
-                             menuItem("Code + Data", tabName = "tabcode", icon = icon("tasks")),
-                             menuItem("User Guide", tabName = "tabguide", icon = icon("info-circle")),
+                             menuItem("User Guide + Data", tabName = "tabcode", icon = icon("tasks")),
+                             menuItem("Contact", tabName = "tabguide", icon = icon("info-circle")),
                              br(),
                              br()
                          ),

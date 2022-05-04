@@ -11,9 +11,23 @@ Last updated 03/05/2022, AMB
 
 ---
 
+
+> BUG: 04.05.2022 disconnects from server when uploading files 
+
+---
+
+**User Guide**
+
+
+Notes: 
+* Currently only set up for ensembl gene id queries. Updates to come. 
+
+---
+
+
 **Data**
 
-> All work presented here is currently unpublished, and is the work of Ali Barry, Giorgos Baskozos, and Dave Bennett at the University of Oxford (NDCN).
+All work presented here is currently unpublished, and is the work of Ali Barry, Giorgos Baskozos, and Dave Bennett at the University of Oxford (NDCN).
 
 ---
 

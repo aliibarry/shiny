@@ -19,33 +19,8 @@ shinyServer(function(input, output, session) {
         updateTabItems(session, "tabs", newvalue)
     })
     
-    
-    ### input button for gene search term
-    output$genesearch <- eventReactive(input$goButton,
-                                       {
-                                           input$genequery
-                                       })
-    
-    
-    ### download uses the 'd' variable from the reactive function; BUG = case insensitive. Issue with filtered_grep_data script
-    output$downloadData <- downloadHandler(
-        filename = function() {
-            paste("shinydata_usergrep", ".csv", sep = "")
-        },
+    #output$genesearch <- eventReactive(input$goButton,{input$genequery})
 
-        content = function(file) {
-            
-            goi <- read.table(input$user_file$datapath)
-            rownames(goi) <- goi[,1]
-            goi <- goi[which(rownames(goi) %in% rownames(bulkseq_mat)==TRUE),]
-            
-            datatable <- bulkseq_mat[goi,]
-            
-            write.csv(datatable, file, row.names = FALSE)
-        }
-    )
-    
-    
     data <- reactive({ 
       req(input$user_file) 
       
@@ -67,6 +42,19 @@ shinyServer(function(input, output, session) {
         return(datatable)
 
     })
+    
+    output$downloadData <- downloadHandler(
+      filename = function() {
+        paste("shinydata_usergrep", ".csv", sep = "")
+      },
+      
+      content = function(file) {
+        
+        goi <- data()
+        datatable <- bulkseq_mat[goi,]
+        
+        write.csv(datatable, file, row.names = FALSE)
+      })
     
     
     output$bulkseq_dots <- renderPlot({
@@ -103,10 +91,7 @@ shinyServer(function(input, output, session) {
         "TDNV" = "Nociceptors"))
       
       return(g)
-      
-      
-        
-        })
+    })
     
     output$bulkseq_lines <- renderPlot({
         
@@ -145,7 +130,6 @@ shinyServer(function(input, output, session) {
         m <- leaflet() %>% addTiles()
         m <- m %>% setView( -1.2217, 51.76529, zoom = 16)
         m %>% addPopups(-1.2217, 51.76529, "Neural Injury Group")
-        
     })
     
     #volcanoServer("volcano_module")
