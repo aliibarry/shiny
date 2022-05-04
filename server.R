@@ -27,6 +27,11 @@ shinyServer(function(input, output, session) {
         updateTabItems(session, "tabs", newvalue)
     })
     
+    observeEvent(input$link_to_tables, {
+      newvalue <- "tabdata"
+      updateTabItems(session, "tabs", newvalue)
+    })
+    
     #output$genesearch <- eventReactive(input$goButton,{input$genequery})
 
     # data <- reactive({
@@ -56,7 +61,14 @@ shinyServer(function(input, output, session) {
       
       datatable <- data()
       
-      
+      DT::datatable(
+        datatable,
+        style="default",
+        fillContainer = TRUE,
+        class = 'nowrap',
+        options = list(scrollX = TRUE, pageLength = 5)
+      )
+          
        # if (input$user_file == TRUE){
        #   datatable <- bulkseq_mat[data(),]
        # }

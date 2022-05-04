@@ -107,7 +107,7 @@ shinyUI(fluidPage(
         dashboardBody(
             tabItems(
                 tabItem(tabName="tabhome", 
-                        h4("Home"),
+                        #h4("Home"),
                         fluidRow(
                             
                             # text summary for page
@@ -116,28 +116,22 @@ shinyUI(fluidPage(
                                 solidHeader = TRUE,
                                 #height = 275,
                                 h4("Overview"),
-                                p("The DRG Directory provides an interface to explore various murine 
-                                -omics datasets. Full descriptions and relevant citations can be found in the 'Dataset' tab.  
-                                "),
-                                
-                                actionLink("link_to_tabsummary", "Datasets") #links directly to tabData without sidebar menu
-                            ),
-                            
-                            # user inputs for gene search (by text or file)
-                            # column(12,
-                            #     h4("Search by gene:"), 
-                            #     status = "primary", 
-                            #     solidHeader = TRUE,
-                            #            textInput("genequery", ""),
-                            #            h6("separate genes by '|'"),
-                            #            actionButton("goButton", "Enter", class = "btn-light")
-                            #     ),
-                            #     br(),
-                            #     br(),
-                                #users can upload a gene list for searching datasets
-                                column(12, offset = 0,
-                                       
-                                       h4("Search by gene:"),
+                                p("This database provides an interface to explore murine -omics datasets. 
+                                  Deep RNA-seq of mouse DRG subpopulations after spare nerve injury (SNI) was performed 
+                                  to interrogate subtype-specific and shared injury signatures. 
+                                  Specific transgenic details and methodologies will be available in the published reports, 
+                                  and are currently available by request. 
+                                  All work presented here is currently unpublished, and is the work of Ali Barry, 
+                                  Giorgos Baskozos, and Dave Bennett at the University of Oxford (NDCN).
+                                Full descriptions and relevant citations can be found in the 'Dataset' tab.  
+                                ")
+                              )
+                            ), #fluidrow
+                        
+                        fluidRow(
+                            column(6, offset = 0,
+                                       br(),
+                                       h4("Search"),
                                        selectizeInput(
                                          inputId = "geneid", 
                                          label = "", 
@@ -158,13 +152,30 @@ shinyUI(fluidPage(
                                        #               '.csv',
                                        #               '.tsv')
                                        # )
-                                )
+                                ),
+                            column(6,
+                                   br(),
+                                   img(src = "schematic.png", height = 150, width = 400, align = "right")
+                              
+                              
+                            )
                             ),
+
                         
                         fluidRow(
-                            column(12, h4("Search Results")),
-                      
+                            column(12, 
+                                   hr(),
+                                   h4("Results"),
+                                   actionLink("link_to_tables", "Data Tables"),
+                                   
+                                   p("All results are plotted as median vst-transformed count data. 
+                                     Search result data is available for download in in the 'Data Table' tab. 
+                                     Interactive queries for hypothesis testing are forthcoming, 
+                                     but the csv files are available on github.")
+                                   ),
+                            
                             column(width = 6,
+
                                 h4("Naive"),
                                 plotlyOutput("bulkseq_dots")
                                 ),
@@ -176,6 +187,7 @@ shinyUI(fluidPage(
                             ), #fluidRow
                         fluidRow(
                           column(width = 12,
+                                 hr(),
                                  h4("Subtype Plots"),
                                  plotlyOutput("bulkseq_lines_subtype")
                                 )
@@ -186,19 +198,25 @@ shinyUI(fluidPage(
                 
                 tabItem(tabName="tabdata",
                         fluidRow(
-                          column(12, h4("Data Table")),
+                          column(12, h4("Results")),
                           
                           column(width = 12, 
                                  includeMarkdown("datatable_notes.Rmd")),
                           br(),
+                          
                           column(width = 12, 
+                                #h4("Table"),
+                                downloadButton("downloadData", "Download"),
+                                br(),
+                                br(),
                                 DT::dataTableOutput("goi_table")
                                 #DT::dataTableOutput("geneidtable")
-                                ),
-                          
-                          column(width=12, 
-                                 downloadButton("downloadData", "Download"))
+                                )
                         )
+                          
+                        #   column(width=12, 
+                        #          downloadButton("downloadData", "Download"))
+                        # )
                         
                 ), # tabItem one
                 

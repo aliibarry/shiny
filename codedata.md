@@ -5,9 +5,7 @@ date: "23/08/2021"
 output: html_document
 ---
 
-All data used in this database is listed below. 
-
-Last updated 03/05/2022, AMB
+Last updated 04/05/2022, AMB
 
 ---
 
@@ -16,18 +14,13 @@ Last updated 03/05/2022, AMB
 
 ---
 
-**User Guide**
+**Overview**
 
+All data presented here is currently unpublished, and is the work of Ali Barry, Giorgos Baskozos, and Dave Bennett at the University of Oxford (NDCN).
 
-Notes: 
-* Currently only set up for ensembl gene id queries. Updates to come. 
-
----
-
-
-**Data**
-
-All work presented here is currently unpublished, and is the work of Ali Barry, Giorgos Baskozos, and Dave Bennett at the University of Oxford (NDCN).
+User Notes: 
+* Searchable by gene symbol
+* File uploads for ensembl gene id queries in progress. 
 
 ---
 
@@ -45,7 +38,7 @@ This app was generated using Shiny ('R') and is hosted through the Interactive D
 
 **Acknowledgments**
 
-* Special thanks to Dr. Lucy McDermott for workshopping names, and sharing "DRG directory".
+Special thanks to Dr. Lucy McDermott for workshopping names, and sharing "DRG directory".
 
 ---
 

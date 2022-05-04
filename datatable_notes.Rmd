@@ -20,8 +20,3 @@ condition.
 * c = contralateral
 
 ---
-
-* 3D = 3 days post-SNI
-* 4W = 4 weeks post-SNI
-
----
