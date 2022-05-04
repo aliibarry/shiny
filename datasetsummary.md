@@ -5,7 +5,7 @@ date: "22/08/2021"
 output: html_document
 ---
 
-Deep RNA-seq of mouse DRG subpopulations after injury was performed to interrogate subtype-specific and shared injury signatures. All work was done in accordance with the UK Home Office and the University of Oxford Policy on the Use of Animals in Scientific Research. These studies conform to ARRIVE guidelines. Specific transgenic details and methodologies will be available in the published reports, and are currently available by request to [Ali Barry](https://www.ndcn.ox.ac.uk/team/allison-barry). 
+Deep RNA-seq of mouse DRG subpopulations after injury was performed to interrogate subtype-specific and shared injury signatures. All work was done in accordance with the UK Home Office and the University of Oxford Policy on the Use of Animals in Scientific Research. These studies conform to ARRIVE guidelines. Specific transgenic details and methodologies will be available in the published reports, and are currently available by request to [Ali Barry](https://www.ndcn.ox.ac.uk/team/allison-barry). All work presented here is currently unpublished, and is the work of Ali Barry, Giorgos Baskozos, and Dave Bennett at the University of Oxford (NDCN).
 
 ---
 

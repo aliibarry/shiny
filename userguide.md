@@ -11,7 +11,7 @@ output: html_document
 **Gene Search**
 
 Notes: 
-* currently only set up for ensembl gene id queries. Updates to come. 
+* Currently only set up for ensembl gene id queries. Updates to come. 
 
 ---
 

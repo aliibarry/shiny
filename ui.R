@@ -74,9 +74,9 @@ shinyUI(fluidPage(
                              
                              # sidebar menu for tabs (pages)    
                              menuItem("Home", tabName = "tabhome", icon = icon("home")),
+                             menuItem("Data Tables", tabName = "tabdata", icon = icon("stats", lib = "glyphicon")),
                              menuItem("Dataset details", tabName = "tabsummary", icon = icon("book")),
-                             menuItem("Visualisation", tabName = "tabplots", icon = icon("stats", lib = "glyphicon")),
-                             menuItem("Pathway analysis", tabName = "tabpaths", icon = icon("code-branch")),
+                             #menuItem("Pathway analysis", tabName = "tabpaths", icon = icon("code-branch")),
                              menuItem("Code + Data", tabName = "tabcode", icon = icon("tasks")),
                              menuItem("User Guide", tabName = "tabguide", icon = icon("info-circle")),
                              br(),
@@ -142,6 +142,7 @@ shinyUI(fluidPage(
                             #     br(),
                                 #users can upload a gene list for searching datasets
                                 column(12, offset = 0,
+                                       
                                        h4("Search by file (mouse ensembl id):"), 
                                        fileInput("user_file", 
                                                  label = NULL,
@@ -158,30 +159,36 @@ shinyUI(fluidPage(
                         
                         fluidRow(
                             column(12, h4("Search Results")),
+                      
+                            column(width = 5,
+                                h4("Naive"),
+                                plotOutput("bulkseq_dots", width = "275px")
+                                ),
+                            column(width = 7,
+                                h4("Injury"),
+                                plotOutput("bulkseq_lines", width = "400px")
+                                ),
                             
-                            tabBox(
-                                id = "tabset1",
-                                width = 12, 
-                                tabPanel("Plots",
-                                         h4("Naive"),
-                                         plotOutput("bulkseq_dots", width = "300px"),
-                                         br(),
-                                         h4("Injury"),
-                                         plotOutput("bulkseq_lines", width = "400px")
-                                         
-                                         ),
-                                         
-                                tabPanel("Data Table",
-                                         includeMarkdown("datatable_notes.Rmd"),
-                                           
-                                         DT::dataTableOutput("goi_table"),
-                                         downloadButton("downloadData", "Download")
-                                    
-                                    )
-                                ) #tabbox
                             ) #fluidRow
 
                 ), # tabItem HOME
+                
+                
+                tabItem(tabName="tabdata",
+                        fluidRow(
+                          column(12, h4("Data Table")),
+                          
+                          column(width = 12, 
+                                 includeMarkdown("datatable_notes.Rmd")),
+                          br(),
+                          column(width = 12, 
+                                 DT::dataTableOutput("goi_table")),
+                          
+                          column(width=12, 
+                                 downloadButton("downloadData", "Download"))
+                        )
+                        
+                ), # tabItem one
                 
                 
                 tabItem(tabName="tabsummary",
@@ -189,19 +196,6 @@ shinyUI(fluidPage(
                         includeMarkdown("datasetsummary.md")
                 ), 
                 
-                
-                tabItem(tabName="tabdata",
-                        h4("beta"),
-                        
-                        #dataTableOutput("summary")
-                        verbatimTextOutput("summary")
-                ), # tabItem one
-                
-                
-                # tabItem(tabName="tabplots",
-                #         h4("beta"),
-                #         hr()
-                # ), # tabItem plots
                 # 
                 # ## Pathway analyses for various datasets. GO-term searches, etc.
                 # tabItem(tabName="tabpaths",
