@@ -32,7 +32,7 @@ All data tables (DEGs, GO term analyses, GSEA, etc) generated for the data prese
 
 **Shiny App**  
 
-This app was generated using Shiny ('R') and is hosted through the Interactive Data Network (IDN) at the University of Oxford. Shiny code is freely available [here](https://github.com/aliibarry/shiny). 
+This app was generated using Shiny ('R') and is hosted through the Interactive Data Network (IDN) at the University of Oxford. The code used to generate this website is freely available [here](https://github.com/aliibarry/shiny). 
 
 ---
 
