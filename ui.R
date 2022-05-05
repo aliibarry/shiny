@@ -6,6 +6,8 @@
 ##   for non-commercial use only        ##
 ##########################################
 
+#load("C:/Users/allim/AppData/Local/Packages/CanonicalGroupLimited.UbuntuonWindows_79rhkp1fndgsc/LocalState/rootfs/home/amb/Database/drg-directory/drg-directory.RData")
+
 #rsconnect::deployApp()
 #setRepositories(addURLs = c(BioC = "https://bioconductor.org/packages/3.15/bioc"))
 
@@ -68,10 +70,11 @@ shinyUI(fluidPage(
                              
                              # sidebar menu for tabs (pages)    
                              menuItem("Home", tabName = "tabhome", icon = icon("home")),
-                             menuItem("Data Tables", tabName = "tabdata", icon = icon("stats", lib = "glyphicon")),
-                             menuItem("Dataset details", tabName = "tabsummary", icon = icon("book")),
-                             #menuItem("Pathway analysis", tabName = "tabpaths", icon = icon("code-branch")),
-                             menuItem("User Guide + Data", tabName = "tabcode", icon = icon("tasks")),
+                             menuItem("Hypothesis Testing", tabName = "tabwald", icon = icon("stats", lib = "glyphicon")),
+                             #menuItem("Plots", tabName = "tabplots", icon = icon("chart-bar")),
+                             menuItem("Tables", tabName = "tabdata", icon = icon("dna")),
+                             menuItem("Dataset summary", tabName = "tabsummary", icon = icon("file-alt")),
+                             menuItem("User Guide + Data", tabName = "tabcode", icon = icon("folder-open")),
                              menuItem("Contact", tabName = "tabguide", icon = icon("info-circle")),
                              br(),
                              br()
@@ -129,15 +132,18 @@ shinyUI(fluidPage(
                             ), #fluidrow
                         
                         fluidRow(
-                            column(6, offset = 0,
-                                       br(),
-                                       h4("Search"),
-                                       selectizeInput(
-                                         inputId = "geneid", 
-                                         label = "", 
-                                         multiple = TRUE,
-                                         choices = NULL
-                                         )
+                            column(12, offset = 0,
+
+                                  h4("Search Results"),
+                                  selectizeInput(
+                                    inputId = "geneid", 
+                                    label = "", 
+                                    multiple = TRUE,
+                                    choices = NULL
+                                    ),
+                                  
+                                  actionLink("link_to_tables", "Table: search results", icon = icon("dna")),
+                                  br()
                                        # ,
                                        # br(),
                                        # 
@@ -152,27 +158,23 @@ shinyUI(fluidPage(
                                        #               '.csv',
                                        #               '.tsv')
                                        # )
-                                ),
-                            column(6,
-                                   br(),
-                                   img(src = "schematic.png", height = 150, width = 400, align = "right")
-                              
-                              
-                            )
+                                )
                             ),
 
                         
                         fluidRow(
-                            column(12, 
+                            column(width=12, 
                                    hr(),
-                                   h4("Results"),
-                                   actionLink("link_to_tables", "Data Tables"),
-                                   
+                                   #h4("Results")
+                                   ),
+                            column(width = 12,
                                    p("All results are plotted as median vst-transformed count data. 
                                      Search result data is available for download in in the 'Data Table' tab. 
                                      Interactive queries for hypothesis testing are forthcoming, 
                                      but the csv files are available on github.")
-                                   ),
+                              
+                              
+                            ),
                             
                             column(width = 6,
 
@@ -188,7 +190,8 @@ shinyUI(fluidPage(
                         fluidRow(
                           column(width = 12,
                                  hr(),
-                                 h4("Subtype Plots"),
+                                 h4("Subtype Results"),
+                                 actionLink("link_to_wald", "Hypothesis Testing", icon = icon("stats", lib = "glyphicon")),
                                  plotlyOutput("bulkseq_lines_subtype")
                                 )
                         )
@@ -223,16 +226,36 @@ shinyUI(fluidPage(
                 
                 tabItem(tabName="tabsummary",
                         h4("Available datasets"),
-                        includeMarkdown("datasetsummary.md")
+                        includeMarkdown("datasetsummary.md"),
+                        fluidRow(
+                               br(),
+                               column(12,
+                               img(src = "schematic.png", height = 150, width = 400))
+                        )
                 ), 
                 
                 # 
-                # ## Pathway analyses for various datasets. GO-term searches, etc.
-                # tabItem(tabName="tabpaths",
-                #         h4("Pathway and network analyses"),
-                #         p("beta")
-                #         
-                # ), # tabItem paths
+                ## Pathway analyses for various datasets. GO-term searches, etc.
+                tabItem(tabName="tabwald",
+                        h4("Hypothesis Testing"),
+                        column(12,
+                        selectInput("contrast", "", 
+                          choices = c(
+                            "Nociceptors 3D" = "TDNV_3D.csv",
+                            "Nociceptors 4W" = "TDNV_4W.csv",
+                            "PEP 4W" = "CGRT_4W.csv", 
+                            "PEP 3D" = "CGRT_3D.csv",
+                            "NP 4W" = "MRTD_4W.csv",
+                            "NP 3D" = "MRTD_3D.csv",
+                            "C-LTMR 4W" = "CRTH_4W.csv",
+                            "C-LTMR 3D" = "CRTH_3D.csv",
+                            "Ad- AB-RA LTMRs 4W" = "TBAC_4W.csv",
+                            "Ad- AB-RA LTMRs 3D" = "TBAC_3D.csv"
+                            ),
+                          selected = ""),
+                        DT::dataTableOutput("contrast_table")
+                        )
+                ), # tabItem paths
                 
                 ## Supply simple links for each paper + supplementary repository
                 tabItem(tabName="tabcode",

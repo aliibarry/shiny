@@ -32,6 +32,11 @@ shinyServer(function(input, output, session) {
       updateTabItems(session, "tabs", newvalue)
     })
     
+    observeEvent(input$link_to_wald, {
+      newvalue <- "tabwald"
+      updateTabItems(session, "tabs", newvalue)
+    })
+    
     #output$genesearch <- eventReactive(input$goButton,{input$genequery})
 
     # data <- reactive({
@@ -55,6 +60,29 @@ shinyServer(function(input, output, session) {
           
       })
     
+    usercontrast <- reactive({
+      req(input$contrast)
+      res <- read.csv(input$contrast)
+      return(res)
+    })
+    
+    output$contrast_table <- DT::renderDataTable({
+      
+      req(usercontrast())
+      
+      DT::datatable(
+        usercontrast(),
+        width = 12,
+        #style="default",
+        #fillContainer = TRUE,
+        class = 'nowrap',
+        options = list(scrollX = TRUE, pageLength = 10)
+      )
+    })
+    
+    
+    
+    
     output$goi_table <- DT::renderDataTable({
         
       req(data())
@@ -64,7 +92,7 @@ shinyServer(function(input, output, session) {
       DT::datatable(
         datatable,
         style="default",
-        fillContainer = TRUE,
+        #fillContainer = TRUE,
         class = 'nowrap',
         options = list(scrollX = TRUE, pageLength = 5)
       )
