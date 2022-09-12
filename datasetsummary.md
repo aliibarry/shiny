@@ -13,4 +13,6 @@ Spared nerve injury (SNI) is one of many neuropathic injury models used. Here, i
 
 Reads were mapped to the GRCm38 genome using STAR alignment and Samtools was used to sort, index, and merge BAM files. Quality control (QC) was performed with both FastQC and Samtools prior to gene counting with HTSeq. Count corrections for effective library sizes were performed in R using DESeq2, and normalized gene counts were fitted to a negative binomial distribution. Count transformations were performed using VST.
 
+Hypothesis testing was performed on filtered using the Wald test and a weighted FDR correction (independent hypothesis weighting, IHW). Count data was first filtered to genes with an average of 5 reads in at least 10% of the samples.
+
 ---

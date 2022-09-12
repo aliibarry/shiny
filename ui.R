@@ -6,10 +6,13 @@
 ##   for non-commercial use only        ##
 ##########################################
 
+#load("C:/Users/allim/AppData/Local/Packages/CanonicalGroupLimited.UbuntuonWindows_79rhkp1fndgsc/LocalState/rootfs/home/amb/Database/drg-directory/drg-directory.RData")
+
 #rsconnect::deployApp()
 #setRepositories(addURLs = c(BioC = "https://bioconductor.org/packages/3.15/bioc"))
 
 library(shiny)
+library(data.table)
 library(shinythemes)
 library(shinydashboard)
 library(shinyFeedback)
@@ -41,13 +44,86 @@ library("ComplexHeatmap")
 library(ggplot2)
 library(viridis)
 
+# global variables 
+subpopulations = c(
+  "Nociceptors 3D" = "TDNV_3D.csv",
+  "Nociceptors 4W" = "TDNV_4W.csv",
+  "PEP 4W" = "CGRT_4W.csv", 
+  "PEP 3D" = "CGRT_3D.csv",
+  "NP 4W" = "MRTD_4W.csv",
+  "NP 3D" = "MRTD_3D.csv",
+  "C-LTMR 4W" = "CRTH_4W.csv",
+  "C-LTMR 3D" = "CRTH_3D.csv",
+  "Ad- AB-RA LTMRs 4W" = "TBAC_4W.csv",
+  "Ad- AB-RA LTMRs 3D" = "TBAC_3D.csv"
+)
+
 ### Modules
+plotdot_ui <- function(id, sex) {
+  column(width = 6,
+         h4("Naive"),
+         plotlyOutput(NS(id, "bulkseq_dots"))
+  )
+}
+
+
+plotline_ui <- function(id, sex) {
+  column(width = 6,
+         h4("Injury"),
+         plotlyOutput(NS(id, "bulkseq_lines"))
+  )
+}
+
+plotsubtype_ui <- function(id, sex) {
+  column(width = 12,
+         h4("Subtype Results"),
+         plotlyOutput(NS(id, "bulkseq_lines_subtype"))
+  )
+}
+
+deg_plot_ui <- function(id) {
+  column(width = 6, offset=2,
+         h4("Differential Gene Analysis"),
+         actionLink("link_to_wald", "Differential Gene Analysis Table", icon = icon("stats", lib = "glyphicon")),
+         plotlyOutput(NS(id, "deg_plot")))
+}
+
+contrast_table_ui <- function(id) {
+  column(12,
+         selectInput("contrast", "", 
+                     choices = subpopulations,
+                     selected = ""),
+         DT::dataTableOutput(NS(id, "contrast_table"))
+  )
+}
+
+goi_table_ui <- function(id) {
+  tabItem(tabName="tabdata",
+          fluidRow(
+            column(12, h4("Results")),
+            
+            column(width = 12, 
+                   includeMarkdown("datatable_notes.Rmd")),
+            br(),
+            
+            column(width = 12, 
+                   #h4("Table"),
+                   downloadButton("downloadData", "Download"),
+                   br(),
+                   br(),
+                   actionLink("link_to_home2", "Back to Plots", icon = icon("home")),
+                   br(),
+                   br(),
+                   DT::dataTableOutput(NS(id,"goi_table"))
+            )
+          )
+  )
+}
+
 
 ### IU 
-
 shinyUI(fluidPage(
     
-  
     #CSS style sheet
     includeCSS("www/style.css"),
     
@@ -68,10 +144,11 @@ shinyUI(fluidPage(
                              
                              # sidebar menu for tabs (pages)    
                              menuItem("Home", tabName = "tabhome", icon = icon("home")),
-                             menuItem("Data Tables", tabName = "tabdata", icon = icon("stats", lib = "glyphicon")),
-                             menuItem("Dataset details", tabName = "tabsummary", icon = icon("book")),
-                             #menuItem("Pathway analysis", tabName = "tabpaths", icon = icon("code-branch")),
-                             menuItem("User Guide + Data", tabName = "tabcode", icon = icon("tasks")),
+                             menuItem("Differential Gene Analysis", tabName = "tabwald", icon = icon("stats", lib = "glyphicon")),
+                             # menuItem("Plots", tabName = "tabplots", icon = icon("chart-bar")),
+                             menuItem("Tables", tabName = "tabdata", icon = icon("dna")),
+                             menuItem("Dataset summary", tabName = "tabsummary", icon = icon("file-alt")),
+                             menuItem("User Guide + Data", tabName = "tabcode", icon = icon("folder-open")),
                              menuItem("Contact", tabName = "tabguide", icon = icon("info-circle")),
                              br(),
                              br()
@@ -127,113 +204,67 @@ shinyUI(fluidPage(
                                 ")
                               )
                             ), #fluidrow
-                        
+                        hr(),
                         fluidRow(
-                            column(6, offset = 0,
-                                       br(),
-                                       h4("Search"),
-                                       selectizeInput(
-                                         inputId = "geneid", 
-                                         label = "", 
-                                         multiple = TRUE,
-                                         choices = NULL
-                                         )
-                                       # ,
-                                       # br(),
-                                       # 
-                                       # h4("Search by file (mouse ensembl id):"), 
-                                       # fileInput("user_file", 
-                                       #           label = NULL,
-                                       #           accept = c(
-                                       #               'text/csv',
-                                       #               'text/comma-separated-values',
-                                       #               'text/tab-separated-values',
-                                       #               'text/plain',
-                                       #               '.csv',
-                                       #               '.tsv')
-                                       # )
-                                ),
-                            column(6,
-                                   br(),
-                                   img(src = "schematic.png", height = 150, width = 400, align = "right")
-                              
-                              
-                            )
+                          column(3,offset = 0, 
+                                 selectizeInput(
+                            inputId = "geneid", 
+                            label = "Search Genes:", 
+                            multiple = TRUE,
+                            choices = NULL
+                          ), actionButton("load", "Plot Graphs"), br(),br(),
+                          actionLink("link_to_tables", "Table: search results", icon = icon("dna"))), 
+                          column(3, offset = 0,
+                                 selectizeInput(
+                                   inputId = "sex", 
+                                   label = "Select Sex:", 
+                                   choices = c('Both', 'Separate'), 
+                                   selected = 'Both')),
+                            br(),br(),
+                            br()
                             ),
 
-                        
                         fluidRow(
-                            column(12, 
-                                   hr(),
-                                   h4("Results"),
-                                   actionLink("link_to_tables", "Data Tables"),
-                                   
-                                   p("All results are plotted as median vst-transformed count data. 
-                                     Search result data is available for download in in the 'Data Table' tab. 
-                                     Interactive queries for hypothesis testing are forthcoming, 
-                                     but the csv files are available on github.")
+                            column(width=12, 
+                                   hr()
+                                   #h4("Results")
                                    ),
-                            
-                            column(width = 6,
-
-                                h4("Naive"),
-                                plotlyOutput("bulkseq_dots")
-                                ),
-                            column(width = 6,
-                                h4("SNI"),
-                                plotlyOutput("bulkseq_lines")
-                                )
-
-                            ), #fluidRow
-                        fluidRow(
-                          column(width = 12,
-                                 hr(),
-                                 h4("Subtype Plots"),
-                                 plotlyOutput("bulkseq_lines_subtype")
-                                )
-                        )
+                            column(width = 12,
+                                   p("All results are plotted as median vst-transformed count data. 
+                                     Search result data is available for download in in the 'Tables' tab. 
+                                     Interactive queries for hypothesis testing with FDR and log2 fold 
+                                     change (LFC) details are linked below.")
+                            ),
+                            plotdot_ui("dot"), 
+                            plotline_ui("line"), 
+                            plotsubtype_ui("lines_subtype"), 
+                           deg_plot_ui("deg_plot"))
+                        
 
                 ), # tabItem HOME
-                
-                
-                tabItem(tabName="tabdata",
-                        fluidRow(
-                          column(12, h4("Results")),
-                          
-                          column(width = 12, 
-                                 includeMarkdown("datatable_notes.Rmd")),
-                          br(),
-                          
-                          column(width = 12, 
-                                #h4("Table"),
-                                downloadButton("downloadData", "Download"),
-                                br(),
-                                br(),
-                                DT::dataTableOutput("goi_table")
-                                #DT::dataTableOutput("geneidtable")
-                                )
-                        )
-                          
-                        #   column(width=12, 
-                        #          downloadButton("downloadData", "Download"))
-                        # )
-                        
-                ), # tabItem one
-                
+                goi_table_ui("goi_table"), 
                 
                 tabItem(tabName="tabsummary",
                         h4("Available datasets"),
-                        includeMarkdown("datasetsummary.md")
+                        includeMarkdown("datasetsummary.md"),
+                        fluidRow(
+                               br(),
+                               column(12,
+                               img(src = "schematic.png", height = 150, width = 400))
+                        )
                 ), 
-                
-                # 
-                # ## Pathway analyses for various datasets. GO-term searches, etc.
-                # tabItem(tabName="tabpaths",
-                #         h4("Pathway and network analyses"),
-                #         p("beta")
-                #         
-                # ), # tabItem paths
-                
+ 
+                ## Pathway analyses for various datasets. GO-term searches, etc.
+                tabItem(tabName="tabwald",
+                        h4("Differential Gene Analysis"),
+                        actionLink("link_to_home", "Back to Plots", icon = icon("home")),
+                        fluidRow(
+                          # deg_plot_ui("deg_plot"),
+                          contrast_table_ui("contrast_table")
+                        )
+                        
+                ),
+               
                 ## Supply simple links for each paper + supplementary repository
                 tabItem(tabName="tabcode",
                         h4("Data Access"),
