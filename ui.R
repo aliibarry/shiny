@@ -6,8 +6,6 @@
 ##   for non-commercial use only        ##
 ##########################################
 
-#load("C:/Users/allim/AppData/Local/Packages/CanonicalGroupLimited.UbuntuonWindows_79rhkp1fndgsc/LocalState/rootfs/home/amb/Database/drg-directory/drg-directory.RData")
-
 #rsconnect::deployApp()
 #setRepositories(addURLs = c(BioC = "https://bioconductor.org/packages/3.15/bioc"))
 
