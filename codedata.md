@@ -5,20 +5,20 @@ date: "23/08/2021"
 output: html_document
 ---
 
-Last updated 12/09/2022, AMB
+Last updated 04/11/2022, AMB
 
 ---
 
 
 **Overview**
 
-All data presented here is currently unpublished, and is the work of Ali Barry, Georgios Baskozos, and David Bennett at the University of Oxford (NDCN).
+All data presented here is currently unpublished, and is the work of Ali Barry, Georgios Baskozos, and David Bennett at the University of Oxford (NDCN). Citation details are forthcoming.
 
 ---
 
 **Data Tables**
 
-All data tables (DEGs, GO term analyses, GSEA, etc) generated for the data presented here can be found in this [github repository](https://github.com/aliibarry/thesis-supp)
+All data tables (DEGs, GO term analyses, GSEA, etc) generated for the data presented here can be found in this [github repository](https://github.com/aliibarry/thesis-supp). Raw data and processed count data are available on GEO (GSE216444). 
 
 ---
 
@@ -36,4 +36,4 @@ Special thanks to Dr. Lucy McDermott for workshopping names, and sharing "DRG di
 
 **Funding**
 
-AMB is supported by the Wellcome Trust (215145/Z/18/Z) and a GTC MSDTC Scholarship. 
+This work was supported by the Wellcome Trust (215145/Z/18/Z) and a GTC MSDTC Scholarship. This sequencing was further supported by the MRC. 

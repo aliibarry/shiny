@@ -6,7 +6,7 @@ output: html_document
 ---
 
 VST transforms counts across search terms. Samples are labelled by subtype, timepoint, and
-condition.  Full coldata matrix available on GEO (GSE216444)
+condition.  
 
 * TDNV = Nociceptors   
 * CGRT = Peptidergic nociceptors
@@ -20,9 +20,6 @@ condition.  Full coldata matrix available on GEO (GSE216444)
 * c = contralateral
 
 ---
+
 * 3D = 3 days
 * 4W = 4 weeks
-
----
-* a-d = female 
-* e-h = male

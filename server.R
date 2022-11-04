@@ -5,11 +5,11 @@
 ##   allimariebarry@gmail.com           ##
 ##   for non-commercial use only        ##
 ##########################################
-library(profvis)
-# global variables 
-data_dir = "/Users/lynnezhao/Desktop/drg/drg-directory.RData"
-load(data_dir)
 
+
+# global variables 
+data_dir = "drg-directory.RData"
+load(data_dir)
 
 # mat = bulkseq_mat # count data 
 population_labels = c("TBAC" = "A\u03b4-LTMR + A\u03b2-RA-LTMR",
@@ -65,11 +65,11 @@ plotline_server <- function(id, df, sex) {
           scale_colour_viridis(discrete=TRUE, end = .80) + 
           geom_line(aes(color=symbol, linetype=Timepoint)) + geom_point(aes(col=symbol)) + theme_bw() + 
           theme(panel.grid = element_blank(),
-            axis.title = element_text(family = "Gadugi", size=12),
-            axis.text.x = element_text(family = "Gadugi", size=10, angle = 45, hjust= 1),
-            axis.text.y = element_text(family = "Gadugi", size=10),
-            axis.ticks.x = element_blank(),
-            axis.ticks.y = element_blank(), legend.justification = c(0,0.3)) + ylab("Expression") +
+                axis.title = element_text(family = "Gadugi", size=12),
+                axis.text.x = element_text(family = "Gadugi", size=10, angle = 45, hjust= 1),
+                axis.text.y = element_text(family = "Gadugi", size=10),
+                axis.ticks.x = element_blank(),
+                axis.ticks.y = element_blank(), legend.justification = c(0,0.3)) + ylab("Expression") +
           guides(col=FALSE, linetype=guide_legend(label.hjust=0.5, ncol=8)) 
       })
     }
@@ -132,7 +132,7 @@ plotdot_server <- function(id, df, sex) {
             axis.ticks.y = element_blank()) + scale_x_discrete(labels=population_labels)
       })
     }
-      })
+  })
 }
 
 # a server module for ploting subtype plots; 
@@ -174,7 +174,7 @@ plotsubtype_server <- function(id, df, sex) {
             axis.ticks.y = element_blank()) + ylab("Expression") + labs(col="")
       })
     }
-   
+    
   })
 }
 
@@ -227,7 +227,7 @@ deg_plot_server <- function(id, df) {
           axis.ticks.y = element_blank()) + 
         labs(shape = "", size = "") + scale_x_discrete(labels=subpopulation_labels)
     })
-
+    
   })
 }
 
@@ -346,104 +346,104 @@ shinyServer(function(input, output, session) {
                        server = TRUE,
                        selected = "Atf3"
                        #options = list(placeholder = 'select a gene', 'plugins' = list('remove_button'))
-                       ) # select genes 
+  ) # select genes 
   
-    ### linking to other tabs
-    observeEvent(input$link_to_tabsummary, {
-        newvalue <- "tabsummary"
-        updateTabItems(session, "tabs", newvalue)
-    })
-    
-    observeEvent(input$link_to_tables, {
-      newvalue <- "tabdata"
-      updateTabItems(session, "tabs", newvalue)
-    })
-    
-    observeEvent(input$link_to_wald, {
-      newvalue <- "tabwald"
-      updateTabItems(session, "tabs", newvalue)
-    })
-    
-    observeEvent(input$link_to_home, {
-      newvalue <- "tabhome"
-      updateTabItems(session, "tabs", newvalue)
-    })
-    
-    observeEvent(input$link_to_home2, {
-      newvalue <- "tabhome"
-      updateTabItems(session, "tabs", newvalue)
-    })
-    
-    # data preprocessing for deg plots 
-    deg_df <- data.frame()
-    for (pop in subpopulations) {
-      res <- fread(pop)
-      colnames(res) <- c('symbol', 'LFC', 'FDR', 'ID')
-      res$Population <- rep(substring(pop, 1, 7), nrow(res)) # add the population label
-      deg_df = bind_rows(deg_df, res)
-    }
-    mutateddf = mutate(deg_df, sig=ifelse(deg_df$FDR<0.05, "SIG", "NS"))
-   
-    # ploting volcano plots
-    observeEvent(input$volc, {
-      # plot volcano plots only when clicking the button
-      volcano_plot_server("volcano", input$geneid)
-    })
-    
-    # for updating selected genes and plotting graphs, only after clicking 'plot graphs'
-    observeEvent(input$load, {
-      data <- reactive({
-        bulkseq_mat[bulkseq_mat[,155] %in% input$geneid,]
-      }) %>% bindCache(input$geneid)
-      plotdot_server("dot",df(reactive({data()}), "dot"), input$sex) #dotplot
-      plotline_server("line", df(reactive({data()}), "line"), input$sex) # lineplot
-      plotsubtype_server("lines_subtype", df(reactive({data()}), "lines_subtype"), input$sex) 
-      
-      # for differential gene analysis plot
-      deg <- reactive({
-        df <- mutateddf %>% filter(symbol %in% input$geneid)
-        return(df)
-      }) %>% bindCache(input$geneid)
-      
-      deg_plot_server("deg_plot", reactive({deg()}))
-      goi_table_server("goi_table", reactive({data()}))
-      
-    })
-    
-    # display table in 'hypothesis testing' page 
-    usercontrast <- reactive({
-      req(input$contrast)
-      res <- fread(input$contrast)
-      return(res)
-    }) %>% bindCache(input$contrast)
+  ### linking to other tabs
+  observeEvent(input$link_to_tabsummary, {
+    newvalue <- "tabsummary"
+    updateTabItems(session, "tabs", newvalue)
+  })
   
-    contrast_table_server("contrast_table",reactive({usercontrast()})) # a contrast table server 
-
-    output$downloadData <- downloadHandler(
-      filename = function() {
-        paste("drgdirectory_search", ".csv", sep = "")
-      },
-      
-      content = function(file) {
-        datatable <- data()
-        write.csv(datatable, file, row.names = FALSE)
-      })
+  observeEvent(input$link_to_tables, {
+    newvalue <- "tabdata"
+    updateTabItems(session, "tabs", newvalue)
+  })
+  
+  observeEvent(input$link_to_wald, {
+    newvalue <- "tabwald"
+    updateTabItems(session, "tabs", newvalue)
+  })
+  
+  observeEvent(input$link_to_home, {
+    newvalue <- "tabhome"
+    updateTabItems(session, "tabs", newvalue)
+  })
+  
+  observeEvent(input$link_to_home2, {
+    newvalue <- "tabhome"
+    updateTabItems(session, "tabs", newvalue)
+  })
+  
+  # data preprocessing for deg plots 
+  deg_df <- data.frame()
+  for (pop in subpopulations) {
+    res <- fread(pop)
+    colnames(res) <- c('symbol', 'LFC', 'FDR', 'ID')
+    res$Population <- rep(substring(pop, 1, 7), nrow(res)) # add the population label
+    deg_df = bind_rows(deg_df, res)
+  }
+  mutateddf = mutate(deg_df, sig=ifelse(deg_df$FDR<0.05, "SIG", "NS"))
+  
+  # ploting volcano plots
+  observeEvent(input$volc, {
+    # plot volcano plots only when clicking the button
+    volcano_plot_server("volcano", input$geneid)
+  })
+  
+  # for updating selected genes and plotting graphs, only after clicking 'plot graphs'
+  observeEvent(input$load, {
+    data <- reactive({
+      bulkseq_mat[bulkseq_mat[,155] %in% input$geneid,]
+    }) %>% bindCache(input$geneid)
+    plotdot_server("dot",df(reactive({data()}), "dot"), input$sex) #dotplot
+    plotline_server("line", df(reactive({data()}), "line"), input$sex) # lineplot
+    plotsubtype_server("lines_subtype", df(reactive({data()}), "lines_subtype"), input$sex) 
     
-    PlotHeight = reactive(
-      return(length(data()))
-    )
-
-    ### leaflet map for contact details
-    output$myMap <- renderLeaflet({
-        m <- leaflet() %>% addTiles()
-        m <- m %>% setView( -1.238233, 51.756192, zoom = 13)
-        m %>% addPopups(-1.2217, 51.76529, "Neural Injury Group")
+    # for differential gene analysis plot
+    deg <- reactive({
+      df <- mutateddf %>% filter(symbol %in% input$geneid)
+      return(df)
+    }) %>% bindCache(input$geneid)
+    
+    deg_plot_server("deg_plot", reactive({deg()}))
+    goi_table_server("goi_table", reactive({data()}))
+    
+  })
+  
+  # display table in 'hypothesis testing' page 
+  usercontrast <- reactive({
+    req(input$contrast)
+    res <- fread(input$contrast)
+    return(res)
+  }) %>% bindCache(input$contrast)
+  
+  contrast_table_server("contrast_table",reactive({usercontrast()})) # a contrast table server 
+  
+  output$downloadData <- downloadHandler(
+    filename = function() {
+      paste("drgdirectory_search", ".csv", sep = "")
+    },
+    
+    content = function(file) {
+      datatable <- data()
+      write.csv(datatable, file, row.names = FALSE)
     })
-    
-    #volcanoServer("volcano_module")
+  
+  PlotHeight = reactive(
+    return(length(data()))
+  )
+  
+  ### leaflet map for contact details
+  output$myMap <- renderLeaflet({
+    m <- leaflet() %>% addTiles()
+    m <- m %>% setView( -1.238233, 51.756192, zoom = 13)
+    m %>% addPopups(-1.2217, 51.76529, "Neural Injury Group")
+  })
+  
+  #volcanoServer("volcano_module")
 })
 
 # profiling 
 # profvis({
-  # shiny::runApp('Desktop/drg')
+# shiny::runApp('Desktop/drg')
 # })
