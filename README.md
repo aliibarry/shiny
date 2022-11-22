@@ -18,19 +18,19 @@ Barry, A. M. (2022). Exploring the molecular underpinnings of neuropathic pain i
 ***
   
 USER GUIDE: 
-1. The data is in .Rdata format. To load user's own data, substitute the directory in "data_dir" variable at the top of server.R file. 
+1. The data is in .Rdata format. To load user's own data, substitute the directory in <code>data_dir</code> variable at the top of server.R file. 
 2. The .Rdata should include three files: 
-    1) a count matrix, here bulkseq_mat 
+    1) a count matrix, here <code>bulkseq_mat</code> 
     2) a processed differential gene data file that contain the following columns: ('symbol', 'loadfold2change', 'padj') with gene ID as row names. 
-    3) a colData, (here bulkseq_colData), describing the Timepoint, Population, Sex, Condition of each sample (or associated factors).  
+    3) a colData, (here <code>bulkseq_colData</code>), describing the Timepoint, Population, Sex, Condition of each sample (or associated factors).  
 3. If user's datafile have different names, use the find-replace method to change the name of variables in the file into user's own filenames 
 4. Variable names: 
-      ** tcounts_med is a data matrix containing median expression of each gene
+      ** <code>tcounts_med</code> is a data matrix containing median expression of each gene
       ** population_labels, subpopulation_labels and sex labels are full names of abbreviations used; can be substituted according to user's data 
       ** subpopulations is a list of csv file names storing processed datasets for each subpopulation. Can be adjusted based on user's data  
 5. There are server modules for each graph type 
-      1) df(data, type): a function for processing count data; converts count matrix into a transpose version i.e. row names = sample, and colnames = genes  
-      2) plotline_server(id, df, sex): a server module for plotting line graphs; used to show interaction between timepoints and injury. "df" is the count data for selected genes.
+      1) <code>df(data, type)</code>: a function for processing count data; converts count matrix into a transpose version i.e. row names = sample, and colnames = genes  
+      2) <code>plotline_server(id, df, sex)</code>: a server module for plotting line graphs; used to show interaction between timepoints and injury. "df" is the count data for selected genes.
               ** if user data does not contain 'Timepoint' variable, add a new column named Timepoint in user's colData with values 'na' for each sample. This will 
               prevent errors when rouping samples by Sex Timepoint; Also, delete "linetype=Timepoint" in the ggplot object. 
       3) plotdot_server(id, df, sex): a server module for plotting Gene expression dot plots showing
