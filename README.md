@@ -12,7 +12,7 @@ The userguide is associated with the paper Barry et al
 Allison M Barry, Na Zhao, Xun Yang, David L Bennett, Georgios Baskozos  
 ‘Deep RNA-seq of male and female murine sensory neuron subtypes after nerve injury’. 
 
-Data currently availale from Barry 2022 (PhD Thesis), [GSE216444]([https://duckduckgo.com](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE216444)) with PMID to follow.
+Data currently availale from Barry 2022 (PhD Thesis), [GSE216444](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE216444) with PMID to follow.
   
 ***
   
