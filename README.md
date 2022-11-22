@@ -36,7 +36,7 @@ USER GUIDE:
           - plotting gene expression for selected genes.    
           - if user's data does not contain 'Sex' variable, add a new column named "Sex" in user's colData with values 'mixed' for each sample. This will 
               prevent errors when grouping samples by Sex. Delete <code>facet_wrap(~Sex, ncol=2, labeller = labeller(Sex = sexlabels))</code> in the <code>ggplot</code>  
-          - "df" is the count data for selected genes.  
+          - <code>df<\code> is the count data for selected genes.  
           - Dots are coloured by gene expression.  
           - Dot sizes reflect differences in more highly expressed genes.  
       4) <code>plotsubtype_server(id, df, sex)</code>: Gene expression dot plots showing differences across population  
