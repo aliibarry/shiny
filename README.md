@@ -12,7 +12,7 @@ The userguide is associated with the paper Barry et al
 Allison M Barry, Na Zhao, Xun Yang, David L Bennett, Georgios Baskozos  
 ‘Deep RNA-seq of male and female murine sensory neuron subtypes after nerve injury’. 
 
-Data currently availale from Barry 2022 (PhD Thesis), GSE216444 with PMID to follow.
+Data currently availale from Barry 2022 (PhD Thesis), [GSE216444]([https://duckduckgo.com](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE216444)) with PMID to follow.
   
 ***
   
@@ -51,6 +51,8 @@ USER GUIDE:
       9) volcano_plot_server(id, df, ils): A module for plotting volcano plots 
               ** processed differential gene data files are loaded. A volcano plot was plotted for each subtype to show fold changes in injury(or other conditions)-related genes. 
               ** volcano plots are generated using the external function "volcano_plot()"
-4. Additional Information:
-    1) If users would like to delete existing plots, they can directly delete server modules. 
-    2) If users would like to add more plots, they can create new server modules. 
+
+Additional Information:
+
+   1) If users would like to delete existing plots, they can directly delete server modules. 
+   2) If users would like to add more plots, they can create new server modules. 
