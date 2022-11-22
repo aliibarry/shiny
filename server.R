@@ -408,6 +408,15 @@ shinyServer(function(input, output, session) {
     deg_plot_server("deg_plot", reactive({deg()}))
     goi_table_server("goi_table", reactive({data()}))
     
+    output$downloadData <- downloadHandler(
+      filename = function() {
+        paste("drgdirectory_search", ".csv", sep = "")
+      },
+      
+      content = function(file) {
+        datatable <- data()
+        write.csv(datatable, file, row.names = FALSE)
+      })
   })
   
   # display table in 'hypothesis testing' page 
@@ -418,16 +427,6 @@ shinyServer(function(input, output, session) {
   }) %>% bindCache(input$contrast)
   
   contrast_table_server("contrast_table",reactive({usercontrast()})) # a contrast table server 
-  
-  output$downloadData <- downloadHandler(
-    filename = function() {
-      paste("drgdirectory_search", ".csv", sep = "")
-    },
-    
-    content = function(file) {
-      datatable <- data()
-      write.csv(datatable, file, row.names = FALSE)
-    })
   
   PlotHeight = reactive(
     return(length(data()))
