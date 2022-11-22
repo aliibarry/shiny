@@ -13,7 +13,7 @@ Allison M Barry, Na Zhao, Xun Yang, David L Bennett, Georgios Baskozos
 
 Data currently availale from Barry (2022) (PhD Thesis), [GSE216444](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE216444)
 
-Barry, A. M. (2022). Exploring the molecular underpinnings of neuropathic pain in primary afferent subtypes [PhD thesis]. University of Oxford.
+Barry, A. M. (2022). Exploring the molecular underpinnings of neuropathic pain in primary afferent subtypes [PhD thesis]. University of Oxford. [ORA](https://ora.ox.ac.uk/objects/uuid:c4348f6e-eaa5-4eaa-91a8-a07a86563ad4)
   
 ***
   
