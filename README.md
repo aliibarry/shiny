@@ -47,11 +47,11 @@ USER GUIDE:
       5) <code>contrast_table_server(id, df)</code>: A module for displaying tables showing the significance of load2foldchange. <code>df</code> is the processed differential gene data file from DESeq2. 
       6) <code>goi_table_server(id, df)</code>: A module for displaying the individual count for selected genes of all samples. "df" is the count data for selected genes. 
       7) <code>deg_plot_server(id, df)</code>: A module for plotting the significance of load2foldchange for each gene. "df" is the count data for selected genes.
-      8) <code>volcano_plot(df, ils)</code>: A function for plotting volcano plots. This function is called in the volcano plot server. <code>ils</code> is the list of selected genes.  
-              ** Volcano plots are generated per subtype, showing large fold changes in injury (or other conditions)-related genes. 
+      8) <code>volcano_plot(df, ils)</code>: A function for plotting volcano plots. This function is called in the volcano plot server. <code>ils</code> is the list of selected genes.    
+              - Volcano plots are generated per subtype, showing large fold changes in injury (or other conditions)-related genes. 
       9) <code>volcano_plot_server(id, df, ils)</code>: A module for plotting volcano plots   
-              ** processed differential gene data files are loaded. A volcano plot was plotted for each subtype to show fold changes in injury (or other conditions)-related genes.   
-              ** volcano plots are generated using the external function <code>volcano_plot()</code>  
+              - processed differential gene data files are loaded. A volcano plot was plotted for each subtype to show fold changes in injury (or other conditions)-related genes.   
+              - volcano plots are generated using the external function <code>volcano_plot()</code>  
 
 Additional Information:
 
