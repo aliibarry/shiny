@@ -31,15 +31,14 @@ USER GUIDE:
 5. There are server modules for each graph type 
       1) <code>df(data, type)</code>: a function for processing count data; converts count matrix into a transpose version i.e. row names = sample, and colnames = genes  
       2) <code>plotline_server(id, df, sex)</code>: a server module for plotting line graphs; used to show interaction between timepoints and injury. "df" is the count data for selected genes.
-              ** if user data does not contain 'Timepoint' variable, add a new column named <code>Timepoint</code> in user's colData with values 'na' for each sample. This will 
-              prevent errors when rouping samples by Sex Timepoint; Also, delete "linetype=Timepoint" in the ggplot object. 
-      3) <code>plotdot_server(id, df, sex)</code>: a server module for plotting Gene expression dot plots showing
-              ** plotting gene expression for selected genes.  
+        - if user data does not contain 'Timepoint' variable, add a new column named <code>Timepoint</code> in user's colData with values 'na' for each sample. This will prevent errors when grouping samples by Sex Timepoint; Also, delete "linetype=Timepoint" in the ggplot object.   
+      3) <code>plotdot_server(id, df, sex)</code>: a server module for plotting Gene expression dot plots showing  
+              ** plotting gene expression for selected genes.    
               ** if user's data does not contain 'Sex' variable, add a new column named "Sex" in user's colData with values 'mixed' for each sample. This will 
-              prevent errors when grouping samples by Sex. Delete <code>facet_wrap(~Sex, ncol=2, labeller = labeller(Sex = sexlabels))</code> in the <code>ggplot</code>
-              ** "df" is the count data for selected genes.
-              ** Dots are coloured by gene expression.
-              ** Dot sizes reflect differences in more highly expressed genes.
+              prevent errors when grouping samples by Sex. Delete <code>facet_wrap(~Sex, ncol=2, labeller = labeller(Sex = sexlabels))</code> in the <code>ggplot</code>  
+              ** "df" is the count data for selected genes.  
+              ** Dots are coloured by gene expression.  
+              ** Dot sizes reflect differences in more highly expressed genes.  
       4) <code>plotsubtype_server(id, df, sex)</code>: Gene expression dot plots showing differences across population 
               ** if user's data does not contain 'Sex' variable, add a new column named "Sex" in user's colData with values 'mixed' for each sample. This will 
               prevent errors when grouping samples by Sex. Delete <code>facet_wrap(~Sex, ncol=2, labeller = labeller(Sex = sexlabels))</code> in the ggplot
