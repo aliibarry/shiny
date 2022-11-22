@@ -31,27 +31,27 @@ USER GUIDE:
 5. There are server modules for each graph type 
       1) <code>df(data, type)</code>: a function for processing count data; converts count matrix into a transpose version i.e. row names = sample, and colnames = genes  
       2) <code>plotline_server(id, df, sex)</code>: a server module for plotting line graphs; used to show interaction between timepoints and injury. "df" is the count data for selected genes.
-              ** if user data does not contain 'Timepoint' variable, add a new column named Timepoint in user's colData with values 'na' for each sample. This will 
+              ** if user data does not contain 'Timepoint' variable, add a new column named <code>Timepoint</code> in user's colData with values 'na' for each sample. This will 
               prevent errors when rouping samples by Sex Timepoint; Also, delete "linetype=Timepoint" in the ggplot object. 
-      3) plotdot_server(id, df, sex): a server module for plotting Gene expression dot plots showing
+      3) <code>plotdot_server(id, df, sex)</code>: a server module for plotting Gene expression dot plots showing
               ** plotting gene expression for selected genes.  
               ** if user's data does not contain 'Sex' variable, add a new column named "Sex" in user's colData with values 'mixed' for each sample. This will 
-              prevent errors when grouping samples by Sex. Delete "facet_wrap(~Sex, ncol=2, labeller = labeller(Sex = sexlabels))" in the ggplot
+              prevent errors when grouping samples by Sex. Delete <code>facet_wrap(~Sex, ncol=2, labeller = labeller(Sex = sexlabels))</code> in the <code>ggplot</code>
               ** "df" is the count data for selected genes.
               ** Dots are coloured by gene expression.
               ** Dot sizes reflect differences in more highly expressed genes.
-      4) plotsubtype_server(id, df, sex): Gene expression dot plots showing differences across population 
+      4) <code>plotsubtype_server(id, df, sex)</code>: Gene expression dot plots showing differences across population 
               ** if user's data does not contain 'Sex' variable, add a new column named "Sex" in user's colData with values 'mixed' for each sample. This will 
-              prevent errors when grouping samples by Sex. Delete "facet_wrap(~Sex, ncol=2, labeller = labeller(Sex = sexlabels))" in the ggplot
+              prevent errors when grouping samples by Sex. Delete <code>facet_wrap(~Sex, ncol=2, labeller = labeller(Sex = sexlabels))</code> in the ggplot
               ** if user's data does not contain 'Population' variable, this plot is useful to be included 
-      5) contrast_table_server(id, df): A module for displaying tables showing the significance of load2foldchange. "df" is the processed differential gene data file from DESeq2. 
-      6) goi_table_server(id, df): A module for displaying the individual count for selected genes of all samples. "df" is the count data for selected genes. 
-      7) deg_plot_server(id, df): A module for plotting the significance of load2foldchange for each gene. "df" is the count data for selected genes.
-      8) volcano_plot(df, ils): A function for plotting volcano plots. This function is called in the volcano plot server. "ils" is the list of selected genes.  
-              ** Volcano plots are generated per subtype, showing large fold changes in injury(or other conditions)-related genes. 
-      9) volcano_plot_server(id, df, ils): A module for plotting volcano plots 
+      5) <code>contrast_table_server(id, df)</code>: A module for displaying tables showing the significance of load2foldchange. <code>df</code> is the processed differential gene data file from DESeq2. 
+      6) <code>goi_table_server(id, df)</code>: A module for displaying the individual count for selected genes of all samples. "df" is the count data for selected genes. 
+      7) <code>deg_plot_server(id, df)</code>: A module for plotting the significance of load2foldchange for each gene. "df" is the count data for selected genes.
+      8) <code>volcano_plot(df, ils)</code>: A function for plotting volcano plots. This function is called in the volcano plot server. <code>ils</code> is the list of selected genes.  
+              ** Volcano plots are generated per subtype, showing large fold changes in injury (or other conditions)-related genes. 
+      9) <code>volcano_plot_server(id, df, ils)</code>: A module for plotting volcano plots 
               ** processed differential gene data files are loaded. A volcano plot was plotted for each subtype to show fold changes in injury(or other conditions)-related genes. 
-              ** volcano plots are generated using the external function "volcano_plot()"
+              ** volcano plots are generated using the external function <code>volcano_plot()</code>
 
 Additional Information:
 
