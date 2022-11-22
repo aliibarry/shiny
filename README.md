@@ -5,14 +5,14 @@ Shiny (R) app to interactively host -omics data.
 Hosted at:
 https://livedataoxford.shinyapps.io/drg-directory/
 
-Data from Barry 2022 (PhD Thesis), GSE216444 with PMID to follow.
-
 ***
 The userguide is associated with the paper Barry et al  
 
 
 Allison M Barry, Na Zhao, Xun Yang, David L Bennett, Georgios Baskozos  
 ‘Deep RNA-seq of male and female murine sensory neuron subtypes after nerve injury’. 
+
+Data currently availale from Barry 2022 (PhD Thesis), GSE216444 with PMID to follow.
   
 ***
   
