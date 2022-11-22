@@ -25,9 +25,9 @@ USER GUIDE:
     3) a colData, (here <code>bulkseq_colData</code>), describing the Timepoint, Population, Sex, Condition of each sample (or associated factors).  
 3. If user's datafile have different names, use the find-replace method to change the name of variables in the file into user's own filenames 
 4. Variable names:  
-      ** <code>tcounts_med</code> is a data matrix containing median expression of each gene
-      ** population_labels, subpopulation_labels and sex labels are full names of abbreviations used; can be substituted according to user's data 
-      ** subpopulations is a list of csv file names storing processed datasets for each subpopulation. Can be adjusted based on user's data  
+      - <code>tcounts_med</code> is a data matrix containing median expression of each gene  
+      - population_labels, subpopulation_labels and sex labels are full names of abbreviations used; can be substituted according to user's data   
+      - subpopulations is a list of csv file names storing processed datasets for each subpopulation. Can be adjusted based on user's data    
 5. There are server modules for each graph type 
       1) <code>df(data, type)</code>: a function for processing count data; converts count matrix into a transpose version i.e. row names = sample, and colnames = genes  
       2) <code>plotline_server(id, df, sex)</code>: a server module for plotting line graphs; used to show interaction between timepoints and injury. "df" is the count data for selected genes.
