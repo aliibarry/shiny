@@ -16,6 +16,8 @@ Data is also availale from Barry (2022) (PhD Thesis), [GSE216444](https://www.nc
 Barry, A. M. (2022). Exploring the molecular underpinnings of neuropathic pain in primary afferent subtypes [PhD thesis]. University of Oxford. [ORA](https://ora.ox.ac.uk/objects/uuid:c4348f6e-eaa5-4eaa-91a8-a07a86563ad4)
   
 ***
+
+A more comprehensive guide will follow.
   
 USER GUIDE: 
 1. The data is in .Rdata format. To load user's own data, substitute the directory in <code>data_dir</code> variable at the top of server.R file. 
