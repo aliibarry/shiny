@@ -11,9 +11,9 @@ The userguide is associated with the paper Barry et al . 2023 (PAIN) [biorxiv](h
 Allison M Barry, Na Zhao, Xun Yang, David L Bennett, Georgios Baskozos  
 ‘Deep RNA-seq of male and female murine sensory neuron subtypes after nerve injury’ 
 
-Data is also availale from Barry (2022) (PhD Thesis), [GSE216444](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE216444)
+Data is also availale from Barry (2022) (PhD Thesis), [GSE216444](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE216444), [Supplemental Tables](https://github.com/aliibarry/thesis-supp)
 
-Barry, A. M. (2022). Exploring the molecular underpinnings of neuropathic pain in primary afferent subtypes [PhD thesis]. University of Oxford. [ORA](https://ora.ox.ac.uk/objects/uuid:c4348f6e-eaa5-4eaa-91a8-a07a86563ad4)
+Barry, A. M. (2022). Exploring the molecular underpinnings of neuropathic pain in primary afferent subtypes [PhD thesis]. University of Oxford. [ORA](https://ora.ox.ac.uk/objects/uuid:c4348f6e-eaa5-4eaa-91a8-a07a86563ad4), [Supplemental Tables](https://github.com/aliibarry/thesis-supp)
   
 ***
 
@@ -58,4 +58,3 @@ Additional Information:
 
    1) If users would like to delete existing plots, they can directly delete server modules. 
    2) If users would like to add more plots, they can create new server modules. 
-:)
