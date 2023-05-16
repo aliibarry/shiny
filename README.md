@@ -6,7 +6,7 @@ Hosted at:
 https://livedataoxford.shinyapps.io/drg-directory/
 
 ***
-The userguide is associated with the paper Barry et al . (in review) [biorxiv](https://www.biorxiv.org/content/10.1101/2022.11.21.516781v1)
+The userguide is associated with the paper Barry et al . 2023 (PAIN) [biorxiv](https://www.biorxiv.org/content/10.1101/2022.11.21.516781v1)
 
 Allison M Barry, Na Zhao, Xun Yang, David L Bennett, Georgios Baskozos  
 ‘Deep RNA-seq of male and female murine sensory neuron subtypes after nerve injury’ 
