@@ -1,12 +1,14 @@
 # DRG directory
 
-Shiny (R) app to interactively host -omics data.
+Beta Shiny (R) app to interactively host -omics data.
 
-Hosted at:
+Updated version hosted at:
 https://livedataoxford.shinyapps.io/drg-directory/
 
+see [omics-database](https://github.com/aliibarry/omics-database) for updated software. 
+
 ***
-The userguide is associated with the paper Barry et al . 2023 [PAIN](https://journals.lww.com/pain/fulltext/2023/10000/deep_rna_seq_of_male_and_female_murine_sensory.7.aspx), [biorxiv](https://www.biorxiv.org/content/10.1101/2022.11.21.516781v1)
+This userguide is associated with the paper Barry et al . 2023 [PAIN](https://journals.lww.com/pain/fulltext/2023/10000/deep_rna_seq_of_male_and_female_murine_sensory.7.aspx), [biorxiv](https://www.biorxiv.org/content/10.1101/2022.11.21.516781v1)
 
 Allison M Barry, Na Zhao, Xun Yang, David L Bennett, Georgios Baskozos  
 ‘Deep RNA-seq of male and female murine sensory neuron subtypes after nerve injury’ 
